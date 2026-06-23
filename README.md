@@ -1,38 +1,7 @@
 # Julharie M. Maddin — Portfolio
 
-A personal portfolio site built with React + Vite.
+I am Julharie M. Maddin, a Computer Science student at JRMSU Siocon Campus. My primary goal is learning how to design and build software systems that work cleanly end-to-end, focusing on real implementation over raw theory.
 
-## Run it
+Right now, my engineering focus is directed toward backend development. My day-to-day stack centers around Java, Spring Boot, SQL databases, and Redis caching layers. To round out my skills, I construct frontend interfaces using React. My active build, NP-Shop, is a complete e-commerce engine decoupled into a robust Spring Boot API and a responsive React client. This architecture serves as my testing ground for parsing authentication flows, secure payment webhooks, cache invalidation, and data persistence models.
 
-```bash
-npm install
-npm run dev
-```
-
-Then open the URL Vite prints (usually `http://localhost:5173`).
-
-## Edit your projects
-
-Open `src/data/projects.js` and edit the array — each object becomes a
-card on the Home and Projects pages, and gets its own detail page at
-`/projects/<slug>`.
-
-## Structure
-
-```
-src/
-├── components/      # Navbar, Footer, ProjectCard
-├── layout/          # Page shell (Navbar + content + Footer)
-├── data/            # projects.js — edit this to update your projects
-├── pages/           # Home, Projects, ProjectDetail, About, Contact, NotFound
-└── styles/          # globals.css — color/spacing tokens used everywhere
-```
-
-## Build for deployment
-
-```bash
-npm run build
-```
-
-Outputs a static site to `dist/` — deployable to Vercel, Netlify, GitHub
-Pages, or any static host.
+Though I am relatively new to the industry and currently three weeks into building in public, consistency is my driver. Every repository is an intentional push to get one layer deeper into how modern web infrastructure performs under the hood.
