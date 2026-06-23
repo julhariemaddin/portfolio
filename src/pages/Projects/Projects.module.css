@@ -1,0 +1,47 @@
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(48px, 8vw, 72px) clamp(16px, 3vw, 32px) clamp(64px, 10vw, 96px);
+}
+
+.header {
+  margin-bottom: clamp(32px, 5vw, 48px);
+  padding-bottom: clamp(24px, 4vw, 32px);
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--neon-glow-primary);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: clamp(16px, 3vw, 24px);
+}
+
+.emptyState {
+  font-size: 13px;
+  color: var(--text-muted);
+}
