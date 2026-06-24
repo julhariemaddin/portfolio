@@ -57,10 +57,28 @@
 }
 
 .brandTag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--font-display);
   font-size: 10px;
-  color: var(--neon-glow-secondary);
+  color: var(--text-muted);
   letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
 }
 
 .links {
@@ -100,6 +118,7 @@
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--text-primary);
   background: transparent;
   border: 1px solid var(--border);
@@ -155,10 +174,16 @@
 
   .linkActive {
     background: var(--bg-subtle);
-    color: var(--neon-glow-primary);
+    color: var(--text-primary);
   }
 
   .menuBtn {
     display: inline-block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statusDot {
+    animation: none;
   }
 }

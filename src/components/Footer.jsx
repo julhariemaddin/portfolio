@@ -7,7 +7,10 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.col}>
-          <span className={styles.eyebrow}>// end of file</span>
+          <span className={styles.eofMarker}>
+            <span className={styles.eofTilde} aria-hidden="true">~</span>
+            EOF
+          </span>
           <p className={styles.copy}>
             © {year} Julharie M. Maddin. Built with React &amp; Vite.
           </p>

@@ -19,7 +19,10 @@ export default function Navbar() {
           <span className={styles.brandMark}>JM</span>
           <div className={styles.brandText}>
             <span className={styles.brandName}>Julharie M. Maddin</span>
-            <span className={styles.brandTag}>// status: building</span>
+            <span className={styles.brandTag}>
+              <span className={styles.statusDot} />
+              Building
+            </span>
           </div>
         </NavLink>
 
@@ -44,7 +47,7 @@ export default function Navbar() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
-          {open ? "CLOSE" : "MENU"}
+          {open ? "Close" : "Menu"}
         </button>
       </div>
     </header>

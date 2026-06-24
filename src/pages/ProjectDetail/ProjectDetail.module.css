@@ -25,8 +25,8 @@
 }
 
 .backLink:hover {
-  color: var(--neon-glow-secondary);
-  border-color: var(--neon-glow-secondary);
+  color: var(--text-primary);
+  border-color: var(--text-primary);
   background: var(--bg-subtle);
 }
 
@@ -36,6 +36,52 @@
   margin-bottom: clamp(32px, 5vw, 40px);
 }
 
+.terminalLine {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-mono, var(--font-display));
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.prompt {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.path {
+  color: var(--text-secondary);
+}
+
+.cmd {
+  color: inherit;
+  position: relative;
+  padding-right: 10px;
+}
+
+.cmd::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 13px;
+  background: currentColor;
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
 .kicker {
   display: block;
   font-family: var(--font-display);
@@ -43,7 +89,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--neon-glow-primary);
+  color: var(--text-secondary);
   margin-bottom: 10px;
 }
 
@@ -78,12 +124,13 @@
   letter-spacing: 0.04em;
   padding: 11px 20px;
   text-decoration: none;
+  border: 2px solid var(--text-primary);
   transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
 }
 
 .btnPrimary:hover {
-  background: var(--neon-glow-secondary);
-  color: #000;
+  background: transparent;
+  color: var(--text-primary);
 }
 
 .btnGhost {
@@ -166,7 +213,7 @@
 }
 
 .highlightMark {
-  color: var(--neon-glow-secondary);
+  color: var(--text-primary);
   font-weight: 800;
   flex-shrink: 0;
 }
@@ -236,5 +283,133 @@
 
   .sidebar {
     position: static;
+  }
+}
+
+/* Mini browser mockup (detail page) */
+.browserMockup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 2px solid var(--border);
+  overflow: hidden;
+  background: var(--bg-surface);
+  margin-bottom: clamp(24px, 4vw, 32px);
+}
+
+.browserHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg-subtle, var(--bg-surface));
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+}
+
+.browserDots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1.5px solid var(--text-muted);
+  background: transparent;
+}
+
+.urlBar {
+  background: var(--bg-base);
+  color: var(--text-muted);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  flex-grow: 1;
+  text-align: center;
+  letter-spacing: 0.05em;
+  user-select: all;
+}
+
+.interactiveToggle {
+  background: transparent;
+  border: 1px solid var(--text-primary);
+  color: var(--text-primary);
+  font-size: 10px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.interactiveToggle:hover {
+  background: var(--text-primary);
+  color: var(--bg-base);
+}
+
+.iframeWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-base);
+  overflow: hidden;
+}
+
+.liveIframe {
+  width: 200%;
+  height: 200%;
+  transform: scale(0.5);
+  transform-origin: top left;
+  border: none;
+}
+
+/* Interactive shield */
+.iframeShield {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--bg-base) 70%, transparent);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.iframeShield:hover {
+  background: color-mix(in srgb, var(--bg-base) 90%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.shieldText {
+  background: var(--text-primary);
+  color: var(--bg-base);
+  padding: 10px 20px;
+  border: 1px solid var(--text-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.iframeShield:hover .shieldText {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cmd::after {
+    animation: none;
+    opacity: 1;
   }
 }

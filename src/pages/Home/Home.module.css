@@ -6,7 +6,7 @@
 
 /* ─── Modern Frame Split ─── */
 .hero {
-  max-width: var(--max-width);
+  max-width: var(--max-width, 1200px);
   margin: 0 auto;
   width: 100%;
   padding: clamp(64px, 10vw, 112px) clamp(16px, 3vw, 32px) clamp(48px, 6vw, 80px);
@@ -24,26 +24,29 @@
 
 .eyebrow {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-display, monospace);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: var(--neon-glow-primary);
+  color: var(--neon-glow-primary, #00ffcc);
   text-transform: uppercase;
 }
 
 .heroTitle {
-  font-size: clamp(38px, 5.5vw, 64px);
+  font-size: clamp(42px, 5vw, 60px); /* Slightly increased max-size for impact */
   font-weight: 950;
   letter-spacing: -0.03em;
   line-height: 1.05;
   margin: 0;
+  background: linear-gradient(180deg, var(--text-primary, #fff) 0%, rgba(255,255,255,0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .heroSubtitle {
-  font-size: clamp(14.5px, 1.8vw, 16.5px);
+  font-size: clamp(15px, 1.8vw, 17px);
   line-height: 1.65;
-  color: var(--text-secondary);
+  color: var(--text-secondary, #a0a0a0);
   max-width: 480px;
   margin: 0;
 }
@@ -51,42 +54,45 @@
 .heroActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 12px;
+  gap: 16px;
+  margin-top: 16px;
 }
 
+/* Re-engineered Buttons for a premium feel */
 .btnPrimary {
-  background: var(--text-primary);
-  color: var(--bg-base);
-  font-size: 11.5px;
+  background: var(--text-primary, #fff);
+  color: var(--bg-base, #000);
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 14px 24px;
+  padding: 14px 28px;
   text-decoration: none;
-  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+  border-radius: 4px; /* Subtle rounding is more modern than sharp edges */
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
 }
 
 .btnPrimary:hover {
-  background: var(--neon-glow-secondary);
-  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
 }
 
 .btnGhost {
-  border: 2px solid var(--border);
-  color: var(--text-primary);
-  font-size: 11.5px;
+  border: 1px solid var(--border, #333);
+  color: var(--text-primary, #fff);
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 12px 24px;
+  padding: 14px 28px;
   text-decoration: none;
-  transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
 .btnGhost:hover {
-  border-color: var(--text-primary);
-  background: var(--bg-surface);
+  border-color: var(--text-primary, #fff);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* ─── Creative Transparent Portrait Frame ─── */
@@ -102,65 +108,68 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 4.5;
-  background: var(--bg-surface);
-  border: 2px solid var(--border);
+  background: var(--bg-surface, #111);
+  border: 1px solid var(--border, #333);
+  border-radius: 8px; /* Softer container */
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  overflow: hidden; /* Locks icons tightly inside the grid layout bounding box */
+  overflow: hidden;
   z-index: 2;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.5); /* Inner depth */
 }
 
-/* Dot Blueprint Matrix Pattern */
+/* Advanced Mesh Pattern */
 .meshBackground {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(var(--border) 1.5px, transparent 1.5px);
-  background-size: 16px 16px;
-  opacity: 0.6;
+  background-image: radial-gradient(var(--border, #333) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.4;
   z-index: 1;
+  /* Fades the mesh out at the edges so it doesn't hit the border abruptly */
+  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
 }
 
 .characterCutout {
   position: relative;
-  z-index: 5; /* Keeps your profile cutout stacked safely overhead the vector clouds */
+  z-index: 5;
   width: auto;
   height: 95%;
   max-height: 100%;
   object-fit: contain;
-  filter: grayscale(1) contrast(1.05) brightness(0.95);
-  transform: translateY(4px);
-  transition: filter var(--duration-fast) ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.frameContainer:hover .characterCutout {
-  filter: grayscale(0) contrast(1) brightness(1);
-  transform: scale(1.03) translateY(0px);
+  filter: grayscale(1) contrast(1.05) brightness(0.9);
+  transform: translateY(12px);
+  /* Hover effect is now handled by Framer Motion in the JSX */
 }
 
 .frameBadge {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  top: 16px;
+  left: 16px;
   z-index: 6;
-  background: var(--bg-base);
-  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border, #333);
+  border-radius: 4px;
   padding: 6px 12px;
-  font-family: var(--font-display);
-  font-size: 9.5px;
+  font-family: var(--font-display, monospace);
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.05em;
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-secondary);
+  color: var(--text-secondary, #aaa);
 }
 
-/* ─── Structural Icon Aura System (Guaranteed Zero Body Overlaps) ─── */
+/* ─── Structural Icon Aura System ─── */
 .iconAura {
   position: absolute;
   inset: 0;
-  z-index: 0; 
+  z-index: 2; /* Moved up slightly to float over the mesh */
   pointer-events: none;
 }
 
@@ -169,60 +178,40 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(10, 10, 15, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-  transform: rotate(var(--initialRot));
-  animation: gentleBob 4s ease-in-out infinite alternate;
-}
-
-/* Interlaced delay sequences so they don't look uniform */
-.auraIconWrapper:nth-child(even) {
-  animation-delay: -1s;
-  animation-duration: 5s;
-}
-
-.auraIconWrapper:nth-child(3n) {
-  animation-delay: -2s;
-  animation-duration: 3.5s;
-}
-
-@keyframes gentleBob {
-  0% {
-    transform: translateY(0) rotate(var(--initialRot));
-  }
-  100% {
-    transform: translateY(-8px) rotate(calc(var(--initialRot) + 6deg));
-  }
+  width: 38px;
+  height: 38px;
+  background: rgba(15, 15, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  /* Animations removed here, fully controlled by Framer Motion now */
 }
 
 /* ─── Compact Stats Terminal ─── */
 .statusCard {
-  background: var(--bg-surface);
-  border: 2px solid var(--border);
-  border-top: none;
-  margin-top: -22px;
+  background: var(--bg-surface, #111);
+  border: 1px solid var(--border, #333);
+  border-radius: 8px;
+  margin-top: -30px;
   position: relative;
   z-index: 4;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
 }
 
 .statusDot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #22c55e;
-  box-shadow: 0 0 8px #22c55e;
-  animation: pulse 1.8s infinite;
+  box-shadow: 0 0 12px #22c55e;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .factList {
-  padding: 4px 0;
+  padding: 0;
   margin: 0;
   list-style: none;
 }
@@ -232,8 +221,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border, #333);
 }
 
 .factRow:last-child {
@@ -241,67 +230,70 @@
 }
 
 .factLabel {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-muted, #777);
 }
 
 .factValue {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-primary, #fff);
 }
 
 /* ─── Tech Strip ─── */
 .stackSection {
-  max-width: var(--max-width);
+  max-width: var(--max-width, 1200px);
   margin: 0 auto;
   width: 100%;
-  padding: clamp(24px, 4vw, 36px) clamp(16px, 3vw, 32px);
-  border-top: 1px solid var(--border);
+  padding: clamp(32px, 4vw, 48px) clamp(16px, 3vw, 32px);
+  border-top: 1px solid var(--border, #333);
 }
 
 .sectionKicker {
-  font-family: var(--font-display);
-  font-size: 10.5px;
+  font-family: var(--font-display, monospace);
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 16px;
+  color: var(--text-muted, #777);
+  margin-bottom: 20px;
   margin-top: 0;
 }
 
 .stackRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .stackPill {
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
-  padding: 6px 14px;
-  background: var(--bg-surface);
+  font-family: var(--font-display, monospace);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-secondary, #aaa);
+  border: 1px solid var(--border, #333);
+  padding: 8px 16px;
+  border-radius: 20px; /* Pill shapes feel much more premium for tags */
+  background: rgba(255, 255, 255, 0.02);
+  cursor: default;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .stackPill:hover {
-  color: var(--text-primary);
-  border-color: var(--neon-glow-secondary);
+  color: var(--text-primary, #fff);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* ─── Projects Grid Setup ─── */
 .featured {
-  max-width: var(--max-width);
+  max-width: var(--max-width, 1200px);
   margin: 0 auto;
   width: 100%;
-  padding: clamp(32px, 5vw, 48px) clamp(16px, 3vw, 32px) clamp(64px, 10vw, 96px);
-  border-top: 1px solid var(--border);
+  padding: clamp(40px, 5vw, 64px) clamp(16px, 3vw, 32px) clamp(80px, 10vw, 120px);
+  border-top: 1px solid var(--border, #333);
 }
 
 .sectionHeader {
@@ -309,49 +301,50 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: clamp(28px, 4vw, 36px);
+  margin-bottom: clamp(32px, 4vw, 48px);
 }
 
 .sectionTitle {
-  font-size: clamp(24px, 3.5vw, 30px);
+  font-size: clamp(26px, 3.5vw, 34px);
   font-weight: 950;
   letter-spacing: -0.01em;
-  margin: 4px 0 0 0;
+  margin: 8px 0 0 0;
 }
 
 .viewAllLink {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: var(--neon-glow-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary, #aaa);
   white-space: nowrap;
   text-decoration: none;
+  transition: color 0.2s ease;
+  padding-bottom: 4px;
 }
 
 .viewAllLink:hover {
-  text-decoration: underline;
+  color: var(--text-primary, #fff);
 }
 
 .grid, .fallbackGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-  gap: clamp(16px, 3vw, 24px);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: clamp(20px, 3vw, 32px);
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0.6; }
-  100% { transform: scale(1); opacity: 1; }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
 }
 
 /* Responsive Viewports */
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 56px;
   }
   .heroRight {
-    max-width: 420px;
+    max-width: 460px;
     margin: 0 auto;
   }
 }
@@ -360,6 +353,6 @@
   .sectionHeader {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 16px;
   }
 }

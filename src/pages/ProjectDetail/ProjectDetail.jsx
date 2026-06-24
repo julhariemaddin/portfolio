@@ -1,15 +1,31 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import { projects } from "../../data/projects";
 import styles from "./ProjectDetail.module.css";
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.06, delayChildren: 0.1 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+};
 
 export default function ProjectDetail() {
   const { slug } = useParams();
   const project = projects.find((p) => p.slug === slug);
+  const [isInteractive, setIsInteractive] = useState(false);
 
   if (!project) {
     return (
       <section className={styles.notFound}>
-        <span className={styles.eyebrow}>// 404</span>
+        <span className={styles.eyebrow}>Not Found</span>
         <h1 className={styles.notFoundTitle}>Project not found</h1>
         <p className={styles.notFoundText}>
           We could not find a project with that name.
@@ -29,12 +45,29 @@ export default function ProjectDetail() {
         </Link>
       </div>
 
-      <header className={styles.header}>
-        <span className={styles.kicker}>// {project.role.toLowerCase()} build</span>
-        <h1 className={styles.title}>{project.title}</h1>
-        <p className={styles.summary}>{project.summary}</p>
+      <motion.header
+        className={styles.header}
+        initial="hidden"
+        animate="show"
+        variants={container}
+      >
+        <motion.div className={styles.terminalLine} variants={item}>
+          <span className={styles.prompt}>julhariemaddin@portfolio</span>
+          <span className={styles.path}>~/projects/{project.slug}</span>
+          <span className={styles.cmd}>$ cat info</span>
+        </motion.div>
 
-        <div className={styles.linkRow}>
+        <motion.span className={styles.kicker} variants={item}>
+          {project.role}
+        </motion.span>
+        <motion.h1 className={styles.title} variants={item}>
+          {project.title}
+        </motion.h1>
+        <motion.p className={styles.summary} variants={item}>
+          {project.summary}
+        </motion.p>
+
+        <motion.div className={styles.linkRow} variants={item}>
           {project.repoUrl && (
             <a
               href={project.repoUrl}
@@ -56,11 +89,50 @@ export default function ProjectDetail() {
             </a>
           )}
           <span className={styles.statusBadge}>{project.status}</span>
-        </div>
-      </header>
+        </motion.div>
+      </motion.header>
 
       <div className={styles.body}>
         <div className={styles.main}>
+          {project.previewType === "iframe" && project.liveUrl && (
+            <div className={styles.browserMockup}>
+              <div className={styles.browserHeader}>
+                <div className={styles.browserDots}>
+                  <span className={styles.dot} />
+                  <span className={styles.dot} />
+                  <span className={styles.dot} />
+                </div>
+                <div className={styles.urlBar}>
+                  {project.liveUrl.replace("https://", "").replace(/\/$/, "")}
+                </div>
+                <button
+                  className={styles.interactiveToggle}
+                  onClick={() => setIsInteractive(!isInteractive)}
+                >
+                  {isInteractive ? "Disable interaction" : "Interact"}
+                </button>
+              </div>
+
+              <div className={styles.iframeWrapper}>
+                <iframe
+                  src={project.liveUrl}
+                  title={`${project.title} Live Preview`}
+                  loading="lazy"
+                  className={styles.liveIframe}
+                />
+                {!isInteractive && (
+                  <div
+                    className={styles.iframeShield}
+                    onClick={() => setIsInteractive(true)}
+                    title="Click to interact"
+                  >
+                    <span className={styles.shieldText}>Click to interact</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           <section className={styles.block}>
             <h2 className={styles.blockTitle}>Overview</h2>
             <p className={styles.description}>{project.description}</p>
@@ -83,7 +155,7 @@ export default function ProjectDetail() {
 
         <aside className={styles.sidebar}>
           <div className={styles.sidebarCard}>
-            <span className={styles.sidebarLabel}>STACK</span>
+            <span className={styles.sidebarLabel}>Stack</span>
             <ul className={styles.tags}>
               {project.tags.map((tag) => (
                 <li key={tag} className={styles.tag}>

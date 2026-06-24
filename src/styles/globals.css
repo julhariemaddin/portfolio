@@ -9,8 +9,8 @@
   --border: #22272d;
   --header-height: 72px;
 
-  --neon-glow-primary: #ec4899;
-  --neon-glow-secondary: #2dd4bf;
+  --accent: #475569;
+  --accent-strong: #cbd5e1;
 
   --font-display: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --font-body: system-ui, -apple-system, sans-serif;
@@ -105,7 +105,7 @@ code,
 }
 
 :focus-visible {
-  outline: 2px solid var(--neon-glow-secondary);
+  outline: 2px solid var(--accent-strong);
   outline-offset: 2px;
 }
 
