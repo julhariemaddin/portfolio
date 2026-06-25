@@ -264,6 +264,17 @@
   text-align: left;
 }
 
+.eyebrow {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
 .notFoundTitle {
   font-size: clamp(24px, 4vw, 32px);
   font-weight: 950;
@@ -329,6 +340,10 @@
   padding: 6px 16px;
   border: 1px solid var(--border);
   flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: center;
   letter-spacing: 0.05em;
   user-select: all;
@@ -405,6 +420,65 @@
 .iframeShield:hover .shieldText {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ─── Mobile: no embedded live iframe ───
+   Below 640px the browser mockup + iframe never render (component
+   swaps it for .mobilePreviewCard). This is a deliberate UX choice,
+   not a missed breakpoint: embedded iframes on mobile show the
+   *desktop* layout of the live site scaled down to illegibility, can
+   trap touch-scroll once "activated", and load a second full page for
+   no real benefit at that size. A static link-out card is the better
+   answer at this width, not a squeezed version of the same component. */
+.mobilePreviewCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  border: 2px solid var(--border);
+  background: var(--bg-surface);
+  padding: 16px 18px;
+  margin-bottom: clamp(24px, 4vw, 32px);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+}
+
+.mobilePreviewCard:hover {
+  border-color: var(--text-primary);
+  background: var(--bg-subtle, var(--bg-surface));
+}
+
+.mobilePreviewText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.mobilePreviewLabel {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.mobilePreviewUrl {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobilePreviewArrow {
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
 @media (prefers-reduced-motion: reduce) {

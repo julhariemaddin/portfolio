@@ -65,6 +65,9 @@ export default function About() {
             My primary goal is learning how to design and build software systems that work cleanly
             end-to-end, focusing on real implementation over raw theory.
           </p>
+           <p className={styles.paragraph}>
+           I graduated from Senior High School with consistent honors from grade 7 through grade 12, and earned my NC II certification in Computer Systems Servicing along the way. That habit of steady, deliberate progress carried into college, where I made the Dean's Lister in my first year. Outside the classroom, I've put that same consistency into building: three main projects, including a full-stack application, alongside five smaller projects built to sharpen specific skills along the way — kept on a separate repository outside my main GitHub.
+          </p>
           <p className={styles.paragraph}>
             Right now, my engineering focus is directed toward backend development. My day-to-day stack
             centers around Java, Spring Boot, SQL databases, and Redis caching layers. To round out my

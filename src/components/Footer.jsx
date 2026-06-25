@@ -12,7 +12,7 @@ export default function Footer() {
             EOF
           </span>
           <p className={styles.copy}>
-            © {year} Julharie M. Maddin. Built with React &amp; Vite.
+            © {year} Julharie M. Maddin. All rights reserved.
           </p>
         </div>
 

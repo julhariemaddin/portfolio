@@ -4,72 +4,338 @@
   min-height: 100vh;
 }
 
-/* ─── Modern Frame Split ─── */
+/* ─── Page shell ─── */
 .hero {
   max-width: var(--max-width, 1200px);
   margin: 0 auto;
   width: 100%;
-  padding: clamp(64px, 10vw, 112px) clamp(16px, 3vw, 32px) clamp(48px, 6vw, 80px);
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: clamp(40px, 6vw, 80px);
-  align-items: center;
+  padding: clamp(48px, 8vw, 88px) clamp(16px, 3vw, 32px) clamp(40px, 6vw, 64px);
 }
 
+/* ─── Terminal window chrome ───
+   The hero IS the terminal: one open window, your photo and stats are
+   things it printed, not cards floating beside it. Monochrome dots,
+   not the macOS red/yellow/green cliché — matches the About page so
+   the two feel like one site, not two themes. */
+.terminal {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-surface);
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-base);
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.titleText {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin: 0 auto;
+}
+
+.titleMeta {
+  font-family: var(--font-display);
+  font-size: 10px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.crt {
+  padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(36px, 5vw, 64px);
+  align-items: start;
+}
+
+/* ─── Command lines ─── shared chrome with About, same vocabulary
+   for prompts/paths so the system feels consistent site-wide. */
+.commandLine {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.prompt {
+  color: var(--neon-glow-primary);
+  font-weight: 700;
+}
+
+.path {
+  color: var(--text-muted);
+}
+
+.cmd {
+  color: var(--text-primary);
+  font-weight: 600;
+  position: relative;
+  padding-right: 9px;
+}
+
+.cmd::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 13px;
+  background: var(--neon-glow-primary);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cmd::after { animation: none; }
+}
+
+/* ─── Left column: boot identity ───
+   Reads like a small CLI tool printing its own startup banner, then
+   --flag style facts instead of a generic eyebrow/heading/subhead block. */
 .heroLeft {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  min-width: 0;
 }
 
-.eyebrow {
-  display: block;
-  font-family: var(--font-display, monospace);
+.versionLine {
+  font-family: var(--font-display);
   font-size: 11px;
+  color: var(--text-muted);
+  margin: 0 0 22px 0;
+}
+
+.versionLine strong {
+  color: var(--neon-glow-secondary, var(--neon-glow-primary));
   font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--neon-glow-primary, #00ffcc);
-  text-transform: uppercase;
 }
 
 .heroTitle {
-  font-size: clamp(42px, 5vw, 60px); /* Slightly increased max-size for impact */
+  font-size: clamp(36px, 4.6vw, 52px);
   font-weight: 950;
   letter-spacing: -0.03em;
   line-height: 1.05;
-  margin: 0;
-  background: linear-gradient(180deg, var(--text-primary, #fff) 0%, rgba(255,255,255,0.7) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  margin: 0 0 14px 0;
+  color: var(--text-primary);
 }
 
 .heroSubtitle {
-  font-size: clamp(15px, 1.8vw, 17px);
-  line-height: 1.65;
-  color: var(--text-secondary, #a0a0a0);
+  font-size: clamp(14.5px, 1.7vw, 16px);
+  line-height: 1.7;
+  color: var(--text-secondary);
   max-width: 480px;
-  margin: 0;
+  margin: 0 0 28px 0;
+  font-family: var(--font-body, inherit);
+}
+
+/* --flag fact list — replaces the old card-style stat grid. Reads like
+   a real CLI printing its resolved config/options. */
+.flagList {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  background: var(--bg-base);
+}
+
+.flagRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 12.5px;
+}
+
+.flagRow:last-child {
+  border-bottom: none;
+}
+
+.flagName {
+  flex-shrink: 0;
+  width: 92px;
+  color: var(--accent-amber, #c98a3e);
+  opacity: 0.9;
+}
+
+.flagValue {
+  color: var(--text-secondary);
+}
+
+/* --resume row — same chrome as the other flag rows, but clickable.
+   A real <button> visually disguised as a row so it stays keyboard
+   accessible without breaking the printed-config look. */
+.flagRowButton {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 14px;
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.flagRowButton:last-child {
+  border-bottom: none;
+}
+
+.flagRowButton:hover,
+.flagRowButton:focus-visible {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.flagRowButton:focus-visible {
+  outline: 1px solid var(--neon-glow-primary);
+  outline-offset: -1px;
+}
+
+.flagValueLink {
+  color: var(--neon-glow-secondary, var(--neon-glow-primary));
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.flagRowButton:hover .flagValueLink,
+.flagRowButton:focus-visible .flagValueLink {
+  text-decoration-color: currentColor;
 }
 
 .heroActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 16px;
+  gap: 14px;
+  margin-bottom: 28px;
 }
 
-/* Re-engineered Buttons for a premium feel */
+/* ─── Certification ───
+   Reads as a credential the system has verified — a single status
+   card, not a badge or a generic "achievements" tile. Sits after the
+   actions so it caps off the identity block, like a final check
+   before the boot sequence hands off to the rest of the page. */
+.certCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  background: var(--bg-base);
+}
+
+.certBadge {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.certBody {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.certTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.certMeta {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+
+.certMeta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.certStatusDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+}
+
 .btnPrimary {
   background: var(--text-primary, #fff);
   color: var(--bg-base, #000);
+  font-family: var(--font-display);
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 14px 28px;
+  letter-spacing: 0.02em;
+  padding: 13px 24px;
   text-decoration: none;
-  border-radius: 4px; /* Subtle rounding is more modern than sharp edges */
+  border-radius: 5px;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.btnPrimary::before {
+  content: "$ ";
+  opacity: 0.5;
 }
 
 .btnPrimary:hover {
@@ -78,127 +344,98 @@
 }
 
 .btnGhost {
-  border: 1px solid var(--border, #333);
-  color: var(--text-primary, #fff);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-display);
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 14px 28px;
+  letter-spacing: 0.02em;
+  padding: 13px 24px;
   text-decoration: none;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  border-radius: 5px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.btnGhost::before {
+  content: "$ ";
+  opacity: 0.5;
 }
 
 .btnGhost:hover {
-  border-color: var(--text-primary, #fff);
+  border-color: var(--text-primary);
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* ─── Creative Transparent Portrait Frame ─── */
+/* ─── Right column: rendered portrait ───
+   The photo sits inside a bordered "render output" frame, like the
+   terminal cat'd an image to the screen — not a floating card with
+   icons orbiting it. One quiet status line underneath instead of
+   16 ambient decorations. */
 .heroRight {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  position: relative;
+  min-width: 0;
 }
 
-.frameContainer {
+.renderFrame {
   position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 4.5;
-  background: var(--bg-surface, #111);
-  border: 1px solid var(--border, #333);
-  border-radius: 8px; /* Softer container */
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-base);
+  aspect-ratio: 4 / 4.6;
+  overflow: hidden;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  overflow: hidden;
-  z-index: 2;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.5); /* Inner depth */
 }
 
-/* Advanced Mesh Pattern */
-.meshBackground {
+.scanlines {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(var(--border, #333) 1px, transparent 1px);
-  background-size: 24px 24px;
-  opacity: 0.4;
-  z-index: 1;
-  /* Fades the mesh out at the edges so it doesn't hit the border abruptly */
-  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0px,
+    rgba(255, 255, 255, 0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.5;
 }
 
 .characterCutout {
   position: relative;
-  z-index: 5;
+  z-index: 1;
   width: auto;
-  height: 95%;
+  height: 96%;
   max-height: 100%;
   object-fit: contain;
-  filter: grayscale(1) contrast(1.05) brightness(0.9);
-  transform: translateY(12px);
-  /* Hover effect is now handled by Framer Motion in the JSX */
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.frameBadge {
+.characterCutout:hover {
+  transform: scale(1.025);
+}
+
+.renderTag {
   position: absolute;
-  top: 16px;
-  left: 16px;
-  z-index: 6;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--border, #333);
-  border-radius: 4px;
-  padding: 6px 12px;
-  font-family: var(--font-display, monospace);
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  font-family: var(--font-display);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--text-secondary, #aaa);
-}
-
-/* ─── Structural Icon Aura System ─── */
-.iconAura {
-  position: absolute;
-  inset: 0;
-  z-index: 2; /* Moved up slightly to float over the mesh */
-  pointer-events: none;
-}
-
-.auraIconWrapper {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  background: rgba(15, 15, 20, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  /* Animations removed here, fully controlled by Framer Motion now */
-}
-
-/* ─── Compact Stats Terminal ─── */
-.statusCard {
-  background: var(--bg-surface, #111);
-  border: 1px solid var(--border, #333);
-  border-radius: 8px;
-  margin-top: -30px;
-  position: relative;
-  z-index: 4;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
+  gap: 7px;
 }
 
 .statusDot {
@@ -206,94 +443,80 @@
   height: 6px;
   border-radius: 50%;
   background: #22c55e;
-  box-shadow: 0 0 12px #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+  flex-shrink: 0;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.factList {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.15); }
 }
 
-.factRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--border, #333);
+@media (prefers-reduced-motion: reduce) {
+  .statusDot { animation: none; }
 }
 
-.factRow:last-child {
-  border-bottom: none;
-}
-
-.factLabel {
+.renderCaption {
+  margin: 10px 2px 0 2px;
+  font-family: var(--font-display);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-muted, #777);
+  color: var(--text-muted);
 }
 
-.factValue {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--text-primary, #fff);
-}
-
-/* ─── Tech Strip ─── */
+/* ─── npm list dump — stack section ───
+   Distinct vocabulary from About's "ls ./stack/": this is a dependency
+   listing, fits a homepage's "what's running" framing. */
 .stackSection {
   max-width: var(--max-width, 1200px);
   margin: 0 auto;
   width: 100%;
-  padding: clamp(32px, 4vw, 48px) clamp(16px, 3vw, 32px);
-  border-top: 1px solid var(--border, #333);
+  padding: clamp(28px, 4vw, 44px) clamp(16px, 3vw, 32px);
+  border-top: 1px solid var(--border);
 }
 
-.sectionKicker {
-  font-family: var(--font-display, monospace);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted, #777);
-  margin-bottom: 20px;
-  margin-top: 0;
+.stackHeaderLine {
+  margin-bottom: 18px;
 }
 
 .stackRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 9px;
 }
 
 .stackPill {
-  font-family: var(--font-display, monospace);
+  font-family: var(--font-display);
   font-size: 11.5px;
   font-weight: 500;
-  color: var(--text-secondary, #aaa);
-  border: 1px solid var(--border, #333);
-  padding: 8px 16px;
-  border-radius: 20px; /* Pill shapes feel much more premium for tags */
-  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  padding: 7px 14px;
+  border-radius: 5px;
+  background: var(--bg-base);
   cursor: default;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.stackPill::before {
+  content: "▸ ";
+  color: var(--text-muted);
 }
 
 .stackPill:hover {
-  color: var(--text-primary, #fff);
+  color: var(--text-primary);
   background: rgba(255, 255, 255, 0.06);
+  border-color: var(--neon-glow-secondary, var(--neon-glow-primary));
+  transform: translateY(-2px);
 }
 
-/* ─── Projects Grid Setup ─── */
+/* ─── Featured projects ─── */
 .featured {
   max-width: var(--max-width, 1200px);
   margin: 0 auto;
   width: 100%;
-  padding: clamp(40px, 5vw, 64px) clamp(16px, 3vw, 32px) clamp(80px, 10vw, 120px);
-  border-top: 1px solid var(--border, #333);
+  padding: clamp(36px, 5vw, 56px) clamp(16px, 3vw, 32px) clamp(72px, 10vw, 112px);
+  border-top: 1px solid var(--border);
 }
 
 .sectionHeader {
@@ -301,21 +524,23 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: clamp(32px, 4vw, 48px);
+  margin-bottom: clamp(28px, 4vw, 40px);
 }
 
 .sectionTitle {
-  font-size: clamp(26px, 3.5vw, 34px);
+  font-size: clamp(24px, 3.2vw, 32px);
   font-weight: 950;
   letter-spacing: -0.01em;
-  margin: 8px 0 0 0;
+  margin: 6px 0 0 0;
+  color: var(--text-primary);
 }
 
 .viewAllLink {
-  font-size: 13px;
+  font-family: var(--font-display);
+  font-size: 12.5px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--text-secondary, #aaa);
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
   white-space: nowrap;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -323,7 +548,7 @@
 }
 
 .viewAllLink:hover {
-  color: var(--text-primary, #fff);
+  color: var(--text-primary);
 }
 
 .grid, .fallbackGrid {
@@ -332,27 +557,29 @@
   gap: clamp(20px, 3vw, 32px);
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.1); }
-}
-
-/* Responsive Viewports */
+/* ─── Responsive ─── */
 @media (max-width: 900px) {
-  .hero {
+  .crt {
     grid-template-columns: 1fr;
-    gap: 56px;
+    gap: 40px;
   }
   .heroRight {
-    max-width: 460px;
+    max-width: 420px;
     margin: 0 auto;
+    width: 100%;
   }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 560px) {
+  .titleText {
+    display: none;
+  }
   .sectionHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+  }
+  .flagName {
+    width: 76px;
   }
 }
