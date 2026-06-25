@@ -5,6 +5,14 @@ import styles from "./ResumeModal.module.css";
 
 const RESUME_PATH = "/JulharieMaddin_Resume.docx";
 
+// Bump this every time you replace the resume file in /public.
+// Office's online viewer (and browsers) cache by URL, so without a
+// changing query string they'll keep serving the old file even after
+// you've redeployed the new one.
+const RESUME_VERSION = "2026-06-25";
+
+const RESUME_URL_WITH_VERSION = `${RESUME_PATH}?v=${RESUME_VERSION}`;
+
 export default function ResumeModal({ open, onClose }) {
   const [loaded, setLoaded] = useState(false);
 
@@ -39,8 +47,8 @@ export default function ResumeModal({ open, onClose }) {
   // non-functional, which is expected (see fallback note in the UI).
   const absoluteResumeUrl =
     typeof window !== "undefined"
-      ? `${window.location.origin}${RESUME_PATH}`
-      : RESUME_PATH;
+      ? `${window.location.origin}${RESUME_URL_WITH_VERSION}`
+      : RESUME_URL_WITH_VERSION;
 
   const isLocalhost =
     typeof window !== "undefined" &&
@@ -84,7 +92,7 @@ export default function ResumeModal({ open, onClose }) {
               </p>
               <div className={styles.titleActions}>
                 <a
-                  href={RESUME_PATH}
+                  href={RESUME_URL_WITH_VERSION}
                   download
                   className={styles.downloadLink}
                 >
@@ -112,7 +120,7 @@ export default function ResumeModal({ open, onClose }) {
                     from, so it only works on the deployed site. You can
                     still download it below to check it locally.
                   </p>
-                  <a href={RESUME_PATH} download className={styles.localDownloadBtn}>
+                  <a href={RESUME_URL_WITH_VERSION} download className={styles.localDownloadBtn}>
                     download resume.docx
                   </a>
                 </div>
